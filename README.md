@@ -65,6 +65,6 @@ TODO
 
 
 ## References
-* [ ] Classification: https://web.stanford.edu/class/cs231a/prev_projects_2016/CS_231A_Final_Report.pdf
-* [ ] HOG: https://lear.inrialpes.fr/people/triggs/pubs/Dalal-cvpr05.pdf
-* [ ] Detection: https://www.researchgate.net/publication/322686139_Geometry-Based_Populated_Chessboard_Recognition
+* **Classification:** https://web.stanford.edu/class/cs231a/prev_projects_2016/CS_231A_Final_Report.pdf
+* **HOG:** https://lear.inrialpes.fr/people/triggs/pubs/Dalal-cvpr05.pdf
+* **Detection:** https://www.researchgate.net/publication/322686139_Geometry-Based_Populated_Chessboard_Recognition
