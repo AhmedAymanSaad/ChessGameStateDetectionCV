@@ -37,34 +37,34 @@ TODO
 
 ## TODO:
 ### Detection:
-* [- ] Grayscale
-* [- ] Canny
-* [- ] Thershold
-* [- ] Hough
-* [- ] H-space
-* [- ] K-means clustering
-* [- ] Outlier elimination
-* [- ] Create reference img
-* [- ] Find corresponding intersections
-* [- ] Define reference img
-* [- ] Predict intersections
-* [- ] Geometeric projection
+* [ ] Grayscale
+* [ ] Canny
+* [ ] Thershold
+* [ ] Hough
+* [ ] H-space
+* [ ] K-means clustering
+* [ ] Outlier elimination
+* [ ] Create reference img
+* [ ] Find corresponding intersections
+* [ ] Define reference img
+* [ ] Predict intersections
+* [ ] Geometeric projection
 
 ### Classification
-* [- ] Create dataset
-* [- ] HOG feature extraction
-* [- ] Train model
-* [- ] Test model
-* [- ] Evaluate model
+* [ ] Create dataset
+* [ ] HOG feature extraction
+* [ ] Train model
+* [ ] Test model
+* [ ] Evaluate model
 
 ### Bonus
-* [- ] Fancy GUI
-* [- ] Converting idea into real-time application
-* [- ] Unique features
-* [- ] High Speed-up performance
+* [ ] Fancy GUI
+* [ ] Converting idea into real-time application
+* [ ] Unique features
+* [ ] High Speed-up performance
 
 
 ## References
-* [- ] Classification: https://web.stanford.edu/class/cs231a/prev_projects_2016/CS_231A_Final_Report.pdf
-* [- ] HOG: https://lear.inrialpes.fr/people/triggs/pubs/Dalal-cvpr05.pdf
-* [- ] Detection: https://www.researchgate.net/publication/322686139_Geometry-Based_Populated_Chessboard_Recognition
+* [ ] Classification: https://web.stanford.edu/class/cs231a/prev_projects_2016/CS_231A_Final_Report.pdf
+* [ ] HOG: https://lear.inrialpes.fr/people/triggs/pubs/Dalal-cvpr05.pdf
+* [ ] Detection: https://www.researchgate.net/publication/322686139_Geometry-Based_Populated_Chessboard_Recognition
