@@ -5,34 +5,34 @@
 
 
 ## Submission Requirements:
-# Code
-# Report
+### Code
+### Report
 * Used algorithms 
 * Experiment results and analysis
 * Performance & accuracy (refer to experiment results section below)
 * Conclusion and references.
 * Work division between team members.
 * Any additional comments
-# Experiment results
+### Experiment results
 * Variety of testcases
 * Choice of comparison metric: accuracy, recall and/or etc.
 * Strengths and weaknesses
-# Testcases
-# Readme file
+### Testcases
+### Readme file
 * Thats me, hello! :wave:
 
 
 ## How to run the project
-# Requirements
+### Requirements
 TODO
 
-# How to run
+### How to run
 TODO
 
-# Configuration
+### Configuration
 TODO
 
-# Code structure
+### Code structure
 TODO
 
 ## TODO:
