@@ -13,5 +13,5 @@ boardrows = { "a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7 }
 boardcols = { "1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "6": 5, "7": 6, "8": 7 }
 
 # ratios enum
-aspectRatios = { "square": 1, "pawn": 1, "knight": 1.25, "bishop": 1.5, "rook": 0.5, "queen": 0.5, "king": 0.5 }
+aspectRatios = { "square": 1, "pawn": 1, "knight": 1.25, "bishop": 1.5, "rook": 1.25, "queen": 1.75, "king": 2 }
 
