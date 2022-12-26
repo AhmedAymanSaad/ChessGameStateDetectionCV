@@ -2,15 +2,18 @@
 This is the main module responsible for running the chess state detection.
 """
 
-from Common import *
-import BoardDetection
-import ChessPieceClassification
-import ChessBoard
+from Common.Common import *
+from BoardDetection.BoardDetection import *
+from ChessPieceClassification.ChessPieceClassification import *
+
+import numpy as np
 
 class ChessStateDetection:
     def __init__(self, image: np.ndarray):
-        self.board = ChessBoard(image)
+        if image is not None:
+            self.board = ChessBoard(image)
         self.boardAnalysis = False
+        self.initClassifier()
 
     def processBoard(self):
         """
@@ -18,7 +21,7 @@ class ChessStateDetection:
         :param image: The image to detect the board from.
         :return: The detected board.
         """
-        self.board = BoardDetection.detectBoard(self.board)
+        self.board = detectBoard(self.board)
         return self.board
 
     def classifySquares(self):
@@ -26,7 +29,7 @@ class ChessStateDetection:
         This function is responsible for classifying the squares.
         :return: The classified squares.
         """
-        self.board = ChessPieceClassification.classifySquares(self.board)
+        self.board = classifySquares(self.board)
         return self.board
 
     def getChessState(self):
@@ -47,3 +50,21 @@ class ChessStateDetection:
         if self.boardAnalysis:
             print("ASCII chess state") #TODO: Implement this function.
         pass
+
+    def initClassifier(self):
+        """
+        This function is responsible for initializing the classifier.
+        :return: The initialized classifier.
+        """
+        classifier = Classifier()
+        self.classifier = classifier
+
+    def trainClassifierCSD(self):
+        """
+        This function is responsible for training the classifier.
+        :return: The trained classifier.
+        """
+        if not self.classifier.training:
+            self.classifier.version = int(config.get("Classifier", "currVersion"))
+        trainClassifier(self.classifier)
+        return self.classifier

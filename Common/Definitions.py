@@ -2,16 +2,16 @@
 This file contains all the static definitions pretianing to the project
 """
 
-squareColors = { 0: "white", 1: "black" }
-pieceColors = { 0: "white", 1: "black" }
-pieceTypes = { 0: "empty", 1: "pawn", 2: "knight", 3: "bishop", 4: "rook", 5: "queen", 6: "king" }
-pieceTypesInv = { "empty": 0, "pawn": 1, "knight": 2, "bishop": 3, "rook": 4, "queen": 5, "king": 6 }
-pieceTypesShort = { 0: "e", 1: "p", 2: "n", 3: "b", 4: "r", 5: "q", 6: "k" }
+# chess pieces enums
+pieces = ["empty", "pawn", "knight", "bishop", "rook", "queen", "king"]
 
-# board enum
-boardrows = { "a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7 }
-boardcols = { "1": 0, "2": 1, "3": 2, "4": 3, "5": 4, "6": 5, "7": 6, "8": 7 }
-
-# ratios enum
-aspectRatios = { "square": 1, "pawn": 1, "knight": 1.25, "bishop": 1.5, "rook": 0.5, "queen": 0.5, "king": 0.5 }
-
+# ratios enums
+aspect_ratios = [1, 1.25, 1.5, 1.75, 2]
+piece_to_ratio = {"empty": 1, "pawn": 1, "knight": 1.25, "bishop": 1.5, "rook": 1.75, "queen": 2, "king": 2}
+piece_weights = {"empty": {0: 64, 1: 272},
+				 "pawn": {0: 128, 1: 208},
+				 "knight": {0: 32, 1: 304},
+				 "bishop": {0: 32, 1: 304}, # 304
+				 "rook": {0: 32, 1: 304}, # 305
+				 "queen": {0: 32, 1: 304}, # 306
+				 "king": {0: 16, 1: 320}} # 320

@@ -1,7 +1,7 @@
 """
 This class is responsible for detecting the board and segments it into squares.
 """
-import ChessBoard
+from Common.Common import *
 
 def detectBoard(chessBoard: ChessBoard) -> ChessBoard:
     """
