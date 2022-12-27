@@ -16,16 +16,24 @@ def TrainClassifier():
     if testing:
         print("csd.trainClassifierCSD()")
         csd.trainClassifierCSD()
-    #csd.trainClassifier()
 
-    
+def TestClassifierOnBoard():
+    print ("Testing Classifier on board")
+    if boolCast(config.get("TestClassifierOnBoard", "readBoardFromCSV")):
+        csd = ChessStateDetection(None)
+        csd.readBoardFromCSV(config.get("TestClassifierOnBoard", "boardCSVPath"),io.imread(config.get("TestClassifierOnBoard", "boardImagePath")))
+        csd.board.showBoardImageMarked()
+        csd.board.GenerateChessSquareImages()
+        csd.classifySquares()
+        csd.printASCIIChessState()
     
 def main():
     mode = config.get("RunMode", "mode")
     #switch case for mode
     switcher = {
         "RunCSDonImg": RunCSDonImg,
-        "TrainClassifier": TrainClassifier
+        "TrainClassifier": TrainClassifier,
+        "TestClassifierOnBoard": TestClassifierOnBoard
     }
     func = switcher.get(mode, Default)
     func()   

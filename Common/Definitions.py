@@ -15,3 +15,39 @@ piece_weights = {"empty": {0: 64, 1: 272},
 				 "rook": {0: 32, 1: 304}, # 305
 				 "queen": {0: 32, 1: 304}, # 306
 				 "king": {0: 16, 1: 320}} # 320
+ratio_to_num = {1: 0, 1.25: 1, 1.5: 2, 1.75: 3, 2: 4}
+piece_classes = {"empty": 0,
+				 "pawn": 1,
+				 "knight": 2,
+				 "bishop": 3,
+				 "rook": 4,
+				 "queen": 5,
+				 "king": 6}
+piece_to_ratio_num = {"empty": 0,
+					  "pawn": 0,
+					"knight": 1,
+					"bishop": 2,
+					"rook": 1,
+					"queen": 3,
+					"king": 4}
+piece_to_Notation = {"empty": " ",
+					 "pawn": "P",
+					 "knight": "N",
+					 "bishop": "B",
+					 "rook": "R",
+					 "queen": "Q",
+					 "king": "K"}
+piece_to_Notation_White = {"empty": " ",
+					 "pawn": "P",
+					 "knight": "N",
+					 "bishop": "B",
+					 "rook": "R",
+					 "queen": "Q",
+					 "king": "K"}
+piece_to_Notation_Black = {"empty": " ",
+					 "pawn": "p",
+					 "knight": "n",
+					 "bishop": "b",
+					 "rook": "r",
+					 "queen": "q",
+					 "king": "k"}

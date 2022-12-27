@@ -9,6 +9,7 @@ import os
 import math
 import matplotlib.pyplot as plt
 import skimage
+import skimage.io as io
 
 
 
