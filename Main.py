@@ -56,6 +56,24 @@ def TestLines():
     csd = ChessStateDetection(img,True)
     csd.board.showBoardImageMarked()
 
+def TestAllBoards():
+    print ("Testing All Boards")
+    testImgsDir = config.get("Directory", "testImagesDir")
+    #loop over test images and call func
+    for filename in os.listdir(testImgsDir):
+        if filename.endswith(".jpg") or filename.endswith(".png"):
+            print("Testing image: " + filename)
+            img = io.imread(testImgsDir + "/" + filename)
+            csd = ChessStateDetection(img)
+            csd.board.showBoardImageMarked(filename)
+            csd.classifySquares()
+            ascii = csd.printASCIIModifiedChessState()
+            #save ascii to text file
+            with open("output/boardsTest/" + filename + ".txt", "w") as text_file:
+                text_file.write(ascii)
+            continue
+        else:
+            continue
 
 
     
@@ -68,7 +86,8 @@ def main():
         "TestClassifierOnBoard": TestClassifierOnBoard,
         "TestBoard": TestBoard,
         "TestSelBoard": TestSelBoard,
-        "TestLines": TestLines
+        "TestLines": TestLines,
+        "TestAllBoards": TestAllBoards
     }
     func = switcher.get(mode, Default)
     func()   

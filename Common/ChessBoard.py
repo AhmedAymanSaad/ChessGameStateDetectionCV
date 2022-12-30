@@ -122,7 +122,7 @@ class ChessBoard:
             self.squares.append(chessSquare)
         return self
 
-    def showBoardImageMarked(self):
+    def showBoardImageMarked(self,save=None):
         """
         This function is responsible for showing the board image marked with corners and intersections.
         :return: The board image marked.
@@ -139,9 +139,11 @@ class ChessBoard:
         for corner in self.corners:
             r, c = draw.disk([corner[0], corner[1]], 60)
             imageProcessed[r, c, :] = [0, 255, 0]
-
-        plt.imshow(imageProcessed)
-        plt.show()
+        if save is not None:
+            plt.imsave('output/boardsTest/'+ save +'.png', imageProcessed)
+        else:
+            plt.imshow(imageProcessed)
+            plt.show()
 
         return imageProcessed
 

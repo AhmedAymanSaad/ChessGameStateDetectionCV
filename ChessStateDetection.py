@@ -92,11 +92,14 @@ class ChessStateDetection:
         printMat = np.rot90(printMat, 3)
         #mirror printMat
         printMat = np.flip(printMat, 1)
+        asciiText = ""
         for i in range(8):
             for j in range(8):
                 print(printMat[i][j], end=" ")
+                asciiText += printMat[i][j] + " "
             print()
-        return printMat
+            asciiText += "\n"
+        return asciiText
 
     def saveImagesClassified(self):
         """
@@ -104,16 +107,17 @@ class ChessStateDetection:
         :return: The images classified.
         """
         # delete output folder
-        if os.path.exists("output"):
-            shutil.rmtree("output")
-        os.mkdir("output")
+        if os.path.exists("output/pieces"):
+            shutil.rmtree("output/pieces")
+        # create output folder
+        os.makedirs("output/pieces")
         # save images
         countEmpty =0
         for square in self.board.squares:
             if square.piece != "empty":
-                cv2.imwrite("output/" + square.piece + "_" + square.color + ".png", square.image[4])
+                cv2.imwrite("output/pieces/" + square.piece + "_" + square.color + ".png", square.image[4])
             else:
-                cv2.imwrite("output/" + square.piece + "_" + str(countEmpty) + ".png", square.image[4])
+                cv2.imwrite("output/pieces/" + square.piece + "_" + str(countEmpty) + ".png", square.image[4])
                 countEmpty += 1
 
 
