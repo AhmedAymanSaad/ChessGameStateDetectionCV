@@ -30,6 +30,56 @@ class ChessBoard:
         self.image = image
         self.corners = []
         self.squares = []
+
+    def boardDetection(self, corners,intersections):
+        """
+        This function is responsible for detecting the board.
+        :param image: The image to detect the board from.
+        :return: The detected board.
+        """
+        self.detectCorners(corners)
+        self.detectIntersections(intersections)
+        self.GenerateChessSquareImages()
+        return self
+
+    def detectCorners(self, corners):
+        """
+        This function is responsible for detecting the corners.
+        :param corners: The corners detected.
+        :return: The detected corners.
+        """
+        for corner in corners:
+            self.corners.append([corner[1],corner[0]])
+        return self
+
+    def detectIntersections(self, intersections):
+        """
+        This function is responsible for detecting the intersections.
+        :param intersections: The intersections detected.
+        :return: The detected intersections.
+        """
+        intersections = np.transpose(intersections)
+        newIntersections = np.zeros((81, 2))
+        #swap x and y
+        newIntersections[:,0] = intersections[:,1]
+        newIntersections[:,1] = intersections[:,0]
+        intersections = newIntersections
+
+
+        for i in range(64):
+            squareCorners = np.zeros((4, 2))
+            row = i%8
+            col = math.floor(i/8)
+            squareCorners[0] = intersections[col*9 + row].astype(int)
+            squareCorners[1] = intersections[col*9 + row + 1].astype(int)
+            squareCorners[2] = intersections[(col+1)*9 + row + 1].astype(int)
+            squareCorners[3] = intersections[(col+1)*9 + row].astype(int)
+            squareCenter = np.mean(squareCorners, axis=0)
+            chessSquare = ChessSquare()
+            chessSquare.center = squareCenter
+            chessSquare.corners = squareCorners.astype(int)
+            self.squares.append(chessSquare)
+        return self
     
     def readBoardFromCSV(self,path : str = None, image : np.ndarray = None):
         """

@@ -1,5 +1,5 @@
 from ChessStateDetection import ChessStateDetection
-from BoardDetection import testBoard
+from BoardDetection.BoardDetection import detectBoard
 
 from Common.Common import *
 
@@ -26,10 +26,38 @@ def TestClassifierOnBoard():
         csd.board.showBoardImageMarked()
         csd.board.GenerateChessSquareImages()
         csd.classifySquares()
-        csd.printASCIIChessState()
+        csd.printASCIIModifiedChessState()
 
 def TestBoard():
-    testBoard()
+    print ("Testing Board")
+    testImgsDir = config.get("Directory", "testImagesDir")
+    #loop over test images and call func
+    for filename in os.listdir(testImgsDir):
+        if filename.endswith(".jpg") or filename.endswith(".png"):
+            print("Testing image: " + filename)
+            img = io.imread(testImgsDir + "/" + filename)
+            detectBoard(img)
+            continue
+        else:
+            continue
+
+def TestSelBoard():
+    print ("Testing Selected Board")
+    img = io.imread(config.get("TestSelBoard", "imgPath"))
+    csd = ChessStateDetection(img)
+    csd.board.showBoardImageMarked()
+    csd.classifySquares()
+    csd.printASCIIModifiedChessState()
+    csd.saveImagesClassified()
+
+def TestLines():
+    print ("Testing Lines")
+    img = io.imread(config.get("TestLines", "imgPath"))
+    csd = ChessStateDetection(img,True)
+    csd.board.showBoardImageMarked()
+
+
+
     
 def main():
     mode = config.get("RunMode", "mode")
@@ -38,7 +66,9 @@ def main():
         "RunCSDonImg": RunCSDonImg,
         "TrainClassifier": TrainClassifier,
         "TestClassifierOnBoard": TestClassifierOnBoard,
-        "TestBoard": TestBoard
+        "TestBoard": TestBoard,
+        "TestSelBoard": TestSelBoard,
+        "TestLines": TestLines
     }
     func = switcher.get(mode, Default)
     func()   

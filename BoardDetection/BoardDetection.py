@@ -566,18 +566,11 @@ def writeIntersections(intersections, filePath):
                 f.write(f'{axis[i]}' + ('' if i == len(axis) - 1 else ','))
             f.write('\n')
 
-def testBoard(chessBoard: ChessBoard) -> ChessBoard:
+def detectBoard(img, plot=False):
     """
     This function is responsible for detecting the board.
     :return: The detected board.
     """
-
-    directory = f'../Common/BoardsCSVData'
-    fileName = f'1.jpg'
-
-    if not fileName.endswith(".jpg") and not fileName.endswith(".png"): return None # error reading a file
-    
-    img = io.imread(os.path.join(directory, fileName))
     imgSize = img.shape
 
     processing_img = img
@@ -599,7 +592,8 @@ def testBoard(chessBoard: ChessBoard) -> ChessBoard:
     dists = np.concatenate((dists1,dists2))
 
     #drawLines(copy_img, accums, angles, dists)
-    drawHoughSpace(H,theta,d,accums, angles, dists)
+    if plot:
+        drawHoughSpace(H,theta,d,accums, angles, dists)
 
     # REMOVE REPEATED LINES
     angles, dists = removeRepeatedLines(angles, dists,processing_img.shape)
@@ -607,13 +601,15 @@ def testBoard(chessBoard: ChessBoard) -> ChessBoard:
     while len(angles) != len(temp_angles):
         temp_angles = angles
         angles, dists = removeRepeatedLines(angles, dists,processing_img.shape)
-    drawLines(copy_img, accums, angles, dists)
-    drawHoughSpace(H,theta,d,accums, angles, dists)
+    if plot:
+        drawLines(copy_img, accums, angles, dists)
+        drawHoughSpace(H,theta,d,accums, angles, dists)
 
     # SORT LINES INTO HORIZONTAL AND VERTICAL
          
     sortedHorizontalLines, sortedVerticalLines = sortLines5(angles, dists,processing_img.shape)
-    drawClusters(H,theta,d,sortedHorizontalLines,sortedVerticalLines)
+    if plot:
+        drawClusters(H,theta,d,sortedHorizontalLines,sortedVerticalLines)
     angles_H = np.array(sortedHorizontalLines)[:,0]
     dists_H = np.array(sortedHorizontalLines)[:,1]
     #drawLines(copy_img, accums, angles_H, dists_H)
@@ -623,10 +619,12 @@ def testBoard(chessBoard: ChessBoard) -> ChessBoard:
 
     # REMOVE OUTLIERS
     angles_H, dists_H = outlierElimination(angles_H,dists_H,2.1)
-    drawLines(copy_img, accums, angles_H, dists_H)
+    if plot:
+        drawLines(copy_img, accums, angles_H, dists_H)
         
     angles_V, dists_V = outlierElimination(angles_V, dists_V,2.1)
-    drawLines(copy_img, accums, angles_V, dists_V)
+    if plot:
+        drawLines(copy_img, accums, angles_V, dists_V)
 
     ########
     
@@ -660,5 +658,5 @@ def testBoard(chessBoard: ChessBoard) -> ChessBoard:
     # writeIntersections(intersections, f'{directory}/intersections.csv')
     
     return corners, intersections
-        
+
 
