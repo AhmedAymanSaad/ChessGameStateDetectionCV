@@ -134,3 +134,7 @@ ChessPieceClassification/FeatureData/*
 
 # Model folder
 ChessPieceClassification/Models
+
+
+# output folder
+output

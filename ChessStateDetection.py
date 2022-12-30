@@ -13,17 +13,17 @@ class ChessStateDetection:
     def __init__(self, image: np.ndarray, prints = False):
         self.board = ChessBoard(image)
         if image is not None:
-            self.board = self.processBoard(print)
+            self.board = self.processBoard(prints)
         self.boardAnalysis = False
         self.initClassifier()
 
-    def processBoard(self, print = False):
+    def processBoard(self, prints = False):
         """
         This function is responsible for detecting the board.
         :param image: The image to detect the board from.
         :return: The detected board.
         """
-        corners, intersections = detectBoard(self.board.image, print)
+        corners, intersections = detectBoard(self.board.image, prints)
         self.board.boardDetection(corners, intersections)
         return self.board
 
@@ -107,8 +107,13 @@ class ChessStateDetection:
             shutil.rmtree("output")
         os.mkdir("output")
         # save images
+        countEmpty =0
         for square in self.board.squares:
-            cv2.imwrite("output/" + square.piece + "_" + square.color + ".png", square.image[4])
+            if square.piece != "empty":
+                cv2.imwrite("output/" + square.piece + "_" + square.color + ".png", square.image[4])
+            else:
+                cv2.imwrite("output/" + square.piece + "_" + str(countEmpty) + ".png", square.image[4])
+                countEmpty += 1
 
 
 
