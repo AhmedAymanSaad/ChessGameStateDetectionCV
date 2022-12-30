@@ -143,6 +143,8 @@ class ChessBoard:
         plt.imshow(imageProcessed)
         plt.show()
 
+        return imageProcessed
+
     def GenerateChessSquareImages(self):
         for square in self.squares:
             square.image = []
@@ -156,10 +158,14 @@ class ChessBoard:
                 minX = min(c1[0], c2[0], c3[0], c4[0])
                 minY = min(c1[1], c2[1], c3[1], c4[1])
                 diff = (maxX - minX)
+                diffAspect = int(diff*aspect_ratio)
                 # imageRs = cv2.resize(chessBoard.image, (64, 128))
                 # subImg = imageRs[minX:maxX, minY:maxY]
                 # subImgRs = cv2.resize(subImg, (int(64*aspect_ratio), 64))
-                sqImg = self.image[minX-int(diff*aspect_ratio):maxX, minY:maxY]
+                # if img would be out of the image bounds then get max possible image
+                if minX-diffAspect < 0:
+                    minX = diffAspect
+                sqImg = self.image[minX-diffAspect:maxX, minY:maxY]
                 # sqImgRs = cv2.resize(sqImg, (int(64*aspect_ratio), 64))
                 square.image.append(sqImg)
 

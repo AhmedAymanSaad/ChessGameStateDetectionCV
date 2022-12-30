@@ -96,6 +96,7 @@ class ChessStateDetection:
             for j in range(8):
                 print(printMat[i][j], end=" ")
             print()
+        return printMat
 
     def saveImagesClassified(self):
         """
