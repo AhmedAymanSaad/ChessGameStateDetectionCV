@@ -112,13 +112,13 @@ class ChessStateDetection:
         # create output folder
         os.makedirs("output/pieces")
         # save images
-        countEmpty =0
+        count =0
         for square in self.board.squares:
             if square.piece != "empty":
-                cv2.imwrite("output/pieces/" + square.piece + "_" + square.color + ".png", square.image[4])
+                cv2.imwrite("output/pieces/"+ str(count) + "." +  square.piece + "_" + square.color + ".png", square.image[4])
             else:
-                cv2.imwrite("output/pieces/" + square.piece + "_" + str(countEmpty) + ".png", square.image[4])
-                countEmpty += 1
+                cv2.imwrite("output/pieces/" + str(count) + "." + "empty" + ".png", square.image[4])
+            count += 1
 
 
 
