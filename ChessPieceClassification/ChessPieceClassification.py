@@ -6,6 +6,9 @@ import glob
 from sklearn import svm
 import joblib
 import sys
+import timeit
+import multiprocessing
+
 
 
 
@@ -24,6 +27,7 @@ class Classifier:
         self.storagePath = config.get("Classifier", "storagePath")
         #config.set("Classifier", "version", str(int(self.version) + 1))
         self.preprocessing = boolCast(config.get("Classifier", "preprocessing"))
+        self.mulitprocessing = boolCast(config.get("Common", "multiprocessing"))
         if self.features == "HOG":
             self.HOGBlockSize = tupleCast(config.get("HOG", "blockSize"))
             self.HOGBlockStride = tupleCast(config.get("HOG", "blockStride"))
@@ -44,8 +48,18 @@ class Classifier:
         :return: The classified square.
         """
         if self.type== "SVM" and self.features == "HOG":
-            for square in board.squares:
-                square = self.classifySquareHOG(square)
+            start = timeit.default_timer()
+            if self.mulitprocessing:
+                #use parallel processing to classify the squares
+                pool = multiprocessing.Pool()
+                pool = multiprocessing.Pool(processes=8)
+                squares = pool.map(self.classifySquareHOG, board.squares)
+                board.squares = squares
+            else:
+                for square in board.squares:
+                    square = self.classifySquareHOG(square)
+            stop = timeit.default_timer()
+            print("Classification time: ", stop - start)
             board.boardAnalysis = True
 
     def classifySquareHOG(self, square):
@@ -87,6 +101,8 @@ class Classifier:
                 square.color = "white"
             else:
                 square.color = "black"
+
+        return square
             
             
 
