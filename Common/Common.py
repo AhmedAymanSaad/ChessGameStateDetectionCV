@@ -11,6 +11,16 @@ import matplotlib.pyplot as plt
 import skimage
 import skimage.io as io
 
+from matplotlib import cm
+import cv2
+from skimage import feature
+from skimage import io, color, draw, transform, filters
+from skimage.color import rgb2gray 
+from skimage.filters import gaussian ,threshold_mean ,try_all_threshold ,threshold_otsu,threshold_triangle,threshold_minimum
+from skimage.transform import rescale
+from skimage.morphology import dilation,closing,opening,erosion, disk,rectangle
+from sklearn.cluster import KMeans
+from scipy.signal import convolve2d
 
 
 from Common.ChessBoard import ChessBoard

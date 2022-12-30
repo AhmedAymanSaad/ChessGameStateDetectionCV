@@ -1,4 +1,5 @@
 from ChessStateDetection import ChessStateDetection
+from BoardDetection import testBoard
 
 from Common.Common import *
 
@@ -26,6 +27,9 @@ def TestClassifierOnBoard():
         csd.board.GenerateChessSquareImages()
         csd.classifySquares()
         csd.printASCIIChessState()
+
+def TestBoard():
+    testBoard()
     
 def main():
     mode = config.get("RunMode", "mode")
@@ -33,7 +37,8 @@ def main():
     switcher = {
         "RunCSDonImg": RunCSDonImg,
         "TrainClassifier": TrainClassifier,
-        "TestClassifierOnBoard": TestClassifierOnBoard
+        "TestClassifierOnBoard": TestClassifierOnBoard,
+        "TestBoard": TestBoard
     }
     func = switcher.get(mode, Default)
     func()   
