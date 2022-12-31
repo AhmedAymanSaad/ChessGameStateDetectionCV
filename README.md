@@ -27,7 +27,7 @@
 TODO
 
 ### How to run
-TODO
+Change the config file to your needs and add the images you need to test in the dir folder chosen in the config file and run the main.py file.
 
 ### Configuration
 TODO
@@ -37,31 +37,30 @@ TODO
 
 ## TODO:
 ### Detection:
-* [ ] Grayscale
-* [ ] Canny
-* [ ] Thershold
-* [ ] Hough
-* [ ] H-space
-* [ ] K-means clustering
-* [ ] Outlier elimination
-* [ ] Create reference img
-* [ ] Find corresponding intersections
-* [ ] Define reference img
-* [ ] Predict intersections
-* [ ] Geometeric projection
+* [x] Grayscale
+* [x] Canny
+* [x] Thershold
+* [x] Hough
+* [x] H-space
+* [x] Outlier elimination
+* [x] Create reference img
+* [x] Find corresponding intersections
+* [x] Define reference img
+* [x] Predict intersections
+* [x] Geometeric projection
 
 ### Classification
-* [ ] Create dataset
-* [ ] HOG feature extraction
-* [ ] Train model
-* [ ] Test model
-* [ ] Evaluate model
+* [x] Create dataset
+* [x] HOG feature extraction
+* [x] Train model
+* [x] Test model
+* [x] Evaluate model
 
 ### Bonus
 * [ ] Fancy GUI
 * [ ] Converting idea into real-time application
 * [ ] Unique features
-* [ ] High Speed-up performance
+* [x] High Speed-up performance
 
 
 ## References
