@@ -75,6 +75,41 @@ def TestAllBoards():
         else:
             continue
 
+def TestBoardErrors():
+    print ("Testing Board Errors")
+    testBoardsDir = config.get("TestBoardErrors", "boardsTestErrorDir")
+    # read image and .txt file from folder
+    boardName = config.get("TestBoardErrors", "boardName")
+    img = io.imread(testBoardsDir + "/" + boardName + ".jpg")
+    #read txt file to np array
+    correctBoard = np.zeros((8,8), dtype=np.int)
+    with open(testBoardsDir + "/" + boardName + ".txt") as f:
+        content = f.readlines()
+    # split with space
+    content = [x.strip().split(' ') for x in content]
+    for i in range(8):
+        for j in range(8):
+            correctBoard[i][j] = int(content[i][j])
+    #run CSD
+    csd = ChessStateDetection(img)
+    csd.board.showBoardImageMarked()
+    csd.classifySquares()
+    csd.printASCIIModifiedChessState()
+    csd.printMatToBoard()
+    csd.createFENlink()
+    print("FEN link: " + csd.createFENlink())
+    #compare with correct board
+    if (boolCast(config.get("TestBoardErrors", "cross_entropy"))):
+        csd.cross_entropy(correctBoard)
+    if (boolCast(config.get("TestBoardErrors", "detection_error"))):
+        csd.detection_error(correctBoard)
+    if (boolCast(config.get("TestBoardErrors", "classification_error"))):
+        csd.classification_error(correctBoard)
+    if (boolCast(config.get("TestBoardErrors", "confusion_matrix"))):
+        csd.confusion_matrix(correctBoard)
+
+
+
 
     
 def main():
@@ -87,7 +122,8 @@ def main():
         "TestBoard": TestBoard,
         "TestSelBoard": TestSelBoard,
         "TestLines": TestLines,
-        "TestAllBoards": TestAllBoards
+        "TestAllBoards": TestAllBoards,
+        "TestBoardErrors": TestBoardErrors
     }
     func = switcher.get(mode, Default)
     func()   

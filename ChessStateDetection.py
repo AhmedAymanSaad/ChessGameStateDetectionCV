@@ -92,6 +92,7 @@ class ChessStateDetection:
         printMat = np.rot90(printMat, 3)
         #mirror printMat
         printMat = np.flip(printMat, 1)
+        self.printMat = printMat
         asciiText = ""
         for i in range(8):
             for j in range(8):
@@ -148,3 +149,91 @@ class ChessStateDetection:
         """
         self.board.readBoardFromCSV(boardCSVPath, boardImagePath)
         return self.board
+
+    def printMatToBoard(self):
+        """
+        This function is responsible for printing the board from a matrix.
+        :return: The board printed from the matrix.
+        """
+        boardMat = np.array([[0 for x in range(8)] for y in range(8)])
+        for i in range(8):
+            for j in range(8):
+                boardMat[i][j] = piece_not_to_num[self.printMat[i][j]]
+
+        self.boardMat = boardMat
+
+    def cross_entropy(self, correct_board):
+        entropy = float(0)
+        for r in range(8):
+            for f in range(8):
+                correct_prob = self.board.probabilities[correct_board[r, f], r, f]
+                entropy = entropy - math.log(correct_prob)
+        entropy = entropy / 64
+        #print("Entropy: " + str(entropy))
+        return entropy
+
+    def detection_error(self, correct_board):
+        num_error = float(0)
+        for r in range(8):
+            for f in range(8):
+                if self.boardMat[r, f] > 0 and correct_board[r, f] == 0:
+                    num_error = num_error + 1
+                if self.boardMat[r, f] == 0 and correct_board[r, f] > 0:
+                    num_error = num_error + 1
+        detection_error = num_error/64
+        detection_accuracy = 1-detection_error
+        print("Detection accuracy: " + str(detection_accuracy))
+        return detection_accuracy
+
+    def classification_error(self, correct_board):
+        num_error = float(0)
+        for r in range(8):
+            for f in range(8):
+                if self.boardMat[r, f] != correct_board[r, f]:
+                    num_error = num_error + 1
+        classification_error = num_error/64
+        classification_accuracy = 1-classification_error
+        print("Classification accuracy: " + str(classification_accuracy))
+        return classification_accuracy
+
+    def confusion_matrix(self, correct_board):
+        confusion_matrix = np.zeros( (7, 7) )
+        for r in range(8):
+            for f in range(8):
+                confusion_matrix[correct_board[r,f], self.boardMat[r,f]] += 1
+        print("Confusion matrix: ")
+        print(confusion_matrix)
+        return confusion_matrix
+
+    def boardToFEN(self):
+        """
+        This function is responsible for converting the board to a FEN link.
+        :return: The FEN link.
+        """
+        fenLink = ""
+        emptyCount = 0
+        for i in range(8):
+            for j in range(8):
+                if self.printMat[i][j] == ".":
+                    emptyCount += 1
+                else:
+                    if emptyCount != 0:
+                        fenLink += str(emptyCount)
+                        emptyCount = 0
+                    fenLink += self.printMat[i][j]
+            if emptyCount != 0:
+                fenLink += str(emptyCount)
+                emptyCount = 0
+            if i != 7:
+                fenLink += "/"
+        self.FEN = fenLink
+        return fenLink
+
+    def createFENlink(self):
+        """
+        This function is responsible for creating a FEN link.
+        :return: The FEN link.
+        """
+        self.boardToFEN()
+        fenLink = "https://lichess.org/editor/" + self.boardToFEN()
+        return fenLink

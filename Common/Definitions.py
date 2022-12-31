@@ -2,6 +2,8 @@
 This file contains all the static definitions pretianing to the project
 """
 
+import numpy as np
+
 # chess pieces enums
 pieces = ["empty", "pawn", "knight", "bishop", "rook", "queen", "king"]
 
@@ -51,3 +53,17 @@ piece_to_Notation_Black = {"empty": " ",
 					 "rook": "r",
 					 "queen": "q",
 					 "king": "k"}
+
+piece_not_to_num = {".": 0,
+					"P": 1,
+					"N": 2,
+					"B": 3,
+					"R": 4,
+					"Q": 5,
+					"K": 6,
+					"p": 1,
+					"n": 2,
+					"b": 3,
+					"r": 4,
+					"q": 5,
+					"k": 6}

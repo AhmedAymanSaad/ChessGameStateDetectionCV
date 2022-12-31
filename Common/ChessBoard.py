@@ -179,4 +179,5 @@ class ChessBoard:
                     plt.show()
 
             plt.show() 
+
     
