@@ -125,54 +125,6 @@ def getLineEquation(angle, dist):
     c = dist/np.sin(angle)
     return m, c
 
-def drawLinesonImage(img ,angles , dists):
-    slopes = []
-    y_intercepts = []
-    for angle, dist in zip(angles, dists):
-        m, c = getLineEquation(angle, dist)
-        #print("m", m)
-        slopes.append(m)
-        y_intercepts.append(c)
-        y0 = (dist) / np.sin(angle) 
-        y1 = (dist - img.shape[1] * np.cos(angle)) / np.sin(angle)
-        if(m > 0):
-            plt.plot((0, img.shape[1]), (y0, y1), '-r', linewidth=1)
-        else:
-            plt.plot((0, img.shape[1]), (y0, y1), '-b', linewidth=1)
-    meanSlope = np.median(slopes)
-    sortedSlopes= sorted(slopes)
-    print("sorted slopes", sortedSlopes)
-    print("mean slope", meanSlope)
-    plt.imshow(img)
-    plt.show()
-    return meanSlope ,slopes, y_intercepts
-        
-def plotpoints(m_array , c_array):
-    plt.plot(m_array, c_array, 'ro') 
-    plt.show()   
-
-
-def draw_Bestfitline_OnHoughSpace(H ,theta ,d ,angles, dists):
-    #draw best fit line on hough space
-    x = -1*np.rad2deg(angles)
-    y = dists
-    z = np.polyfit(x, y, 1)
-    p = np.poly1d(z)
-    plt.plot(x,p(x),"r--")
-    plt.imshow(np.log(H+1), extent=[np.rad2deg(theta[-1]), np.rad2deg(theta[0]),d[-1], d[0]], cmap=cm.gray ,aspect='auto')
-    plt.show()
-    return z
-
-def pointIsOnline(angle , dist ,line_eq):
-    #line_eq: best fit line equation
-    x = -1*np.rad2deg(angle)
-    y = dist
-    y1 = line_eq[0]*x + line_eq[1]
-    if (y1 - y < 80):
-        return True
-    else:
-        return False
-
 # def outliersElimination(angles, dists):
 #     #sort lines according to dists
 #     lines = np.column_stack((angles, dists))
@@ -618,11 +570,11 @@ def detectBoard(img, plot=False):
     #drawLines(copy_img, accums, angles_V, dists_V)
 
     # REMOVE OUTLIERS
-    angles_H, dists_H = outlierElimination(angles_H,dists_H,2.1)
+    angles_H, dists_H = outlierElimination(angles_H,dists_H,2.5)
     if plot:
         drawLines(copy_img, accums, angles_H, dists_H)
         
-    angles_V, dists_V = outlierElimination(angles_V, dists_V,2.1)
+    angles_V, dists_V = outlierElimination(angles_V, dists_V,2.5)
     if plot:
         drawLines(copy_img, accums, angles_V, dists_V)
 
