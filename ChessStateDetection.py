@@ -16,6 +16,7 @@ class ChessStateDetection:
             self.board = self.processBoard(prints)
         self.boardAnalysis = False
         self.initClassifier()
+        self.countSaveFile = 0
 
     def processBoard(self, prints = False):
         """
@@ -120,6 +121,22 @@ class ChessStateDetection:
             else:
                 cv2.imwrite("output/pieces/" + str(count) + "." + "empty" + ".png", square.image[4])
             count += 1
+
+    def saveImagesClassifiedSorted(self,startcount):
+        """
+        This function is responsible for saving the images classified.
+        :return: The images classified.
+        """
+        # save images
+        count = startcount
+        for square in self.board.squares:
+            if square.piece != "empty":
+                cv2.imwrite("output/piecesSorted/" + square.piece + "/" + str(count)  + ".png", square.image[4])
+            else:
+                cv2.imwrite("output/piecesSorted/" + "empty" + "/" + str(count) + "." + "empty" + ".png", square.image[4])
+            count += 1
+        startcount = count
+        return count
 
 
 

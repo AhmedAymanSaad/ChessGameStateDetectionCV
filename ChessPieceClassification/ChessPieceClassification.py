@@ -25,6 +25,7 @@ class Classifier:
         self.version = int(config.get("Classifier", "version"))
         self.featureStoragePath = config.get("Classifier", "featureStoragePath")
         self.storagePath = config.get("Classifier", "storagePath")
+        self.configPath = config.get("Directory", "configPath")
         #config.set("Classifier", "version", str(int(self.version) + 1))
         self.preprocessing = boolCast(config.get("Classifier", "preprocessing"))
         self.mulitprocessing = boolCast(config.get("Common", "multiprocessing"))
@@ -113,7 +114,7 @@ class Classifier:
         :return: The trained classifier.
         """
         if self.type == "SVM":
-            self.trainSVMClassifier(self)
+            self.trainSVMClassifier()
 
     def trainSVMClassifier(self):
         """
@@ -122,14 +123,14 @@ class Classifier:
         """
         if self.features == "HOG":
             if self.preprocessing:
-                self.prepareHOGStorage(self)
-                self.HOGImagePreprocessing(self)
+                self.prepareHOGStorage()
+                self.HOGImagePreprocessing()
             if self.training:
-                self.prepareClassifierStorage(self)
-                self.trainSVMHOGClassifier(self)
-                self.postTrainingLogging(self)
+                self.prepareClassifierStorage()
+                self.trainSVMHOGClassifier()
+                self.postTrainingLogging()
             if self.testing:
-                self.testSVMHOGClassifier(self)
+                self.testSVMHOGClassifier()
 
     def prepareHOGStorage(self):
         """
@@ -153,7 +154,15 @@ class Classifier:
             self.HOGNBins,self.HOGDerivAperture,self.HOGWinSigma,self.HOGHistogramNormType,
             self.HOGL2HysThreshold,self.HOGGammaCorrection,self.HOGNLevels)
             for j,piece_dir in enumerate(pieces):
+                # glob images jpg or png
                 for k,file in enumerate(glob.glob(self.trainingDataPath + piece_dir + "/*.jpg")):
+                    img = cv2.imread(file)
+                    img = cv2.resize(img, (self.HOGWinSizeX,self.HOGWinSizeX * 2))
+                    subImg = img[int(self.HOGWinSizeX*2-self.HOGWinSizeX*ratio):,:]
+                    features = hog.compute(subImg)
+                    np.save(os.path.join(self.featureStoragePath, str(ratio), piece_dir, os.path.basename(file) + ".npy"), features)
+
+                for k,file in enumerate(glob.glob(self.trainingDataPath + piece_dir + "/*.png")):
                     img = cv2.imread(file)
                     img = cv2.resize(img, (self.HOGWinSizeX,self.HOGWinSizeX * 2))
                     subImg = img[int(self.HOGWinSizeX*2-self.HOGWinSizeX*ratio):,:]
@@ -261,7 +270,7 @@ class Classifier:
             num_true_neg = 0
             for piece_dir in pieces:
                 num_correct_in_piece = 0
-                for filename in glob.glob(os.path.join(trainingImgsDir, piece_dir, "*.jpg")):
+                for filename in glob.glob(os.path.join(trainingImgsDir, piece_dir, "*.*")):
                     num_images = num_images + 1
                     image = cv2.imread(filename)
                     image = cv2.resize(image, (64, 128))
@@ -290,7 +299,7 @@ class Classifier:
             num_true_neg = 0
             for piece_dir in pieces:
                 num_correct_in_piece = 0
-                for filename in glob.glob(os.path.join(testingImgsDir, piece_dir, "*.jpg")):
+                for filename in glob.glob(os.path.join(testingImgsDir, piece_dir, "*.*")):
                     num_images = num_images + 1
                     image = cv2.imread(filename)
                     image = cv2.resize(image, (64, 128))

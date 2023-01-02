@@ -138,3 +138,8 @@ ChessPieceClassification/Models
 
 # output folder
 output
+
+# training folder
+ChessPieceClassification/TrainingData
+ChessPieceClassification/TestingData
+Common/TestImagesFil

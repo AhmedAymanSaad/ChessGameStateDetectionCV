@@ -63,15 +63,23 @@ def TestAllBoards():
     for filename in os.listdir(testImgsDir):
         if filename.endswith(".jpg") or filename.endswith(".png"):
             print("Testing image: " + filename)
-            img = io.imread(testImgsDir + "/" + filename)
-            csd = ChessStateDetection(img)
-            csd.board.showBoardImageMarked(filename)
-            csd.classifySquares()
-            ascii = csd.printASCIIModifiedChessState()
-            #save ascii to text file
-            with open("output/boardsTest/" + filename + ".txt", "w") as text_file:
-                text_file.write(ascii)
-            continue
+            try:
+                img = io.imread(testImgsDir + "/" + filename)
+                csd = ChessStateDetection(img)
+                csd.board.showBoardImageMarked(filename)
+                csd.classifySquares()
+                ascii = csd.printASCIIModifiedChessState()
+                csd.printMatToBoard()
+                fenLink = csd.createFENlink()
+                #save ascii to text file and fen link to text file
+                with open("output/boardsTest/" + filename + ".txt", "w") as text_file:
+                    text_file.write(ascii)
+                with open("output/boardsTest/" + filename + ".txt", "a") as text_file:
+                    text_file.write(fenLink)
+
+                continue
+            except:
+                print("Board not detected")
         else:
             continue
 
@@ -108,6 +116,24 @@ def TestBoardErrors():
     if (boolCast(config.get("TestBoardErrors", "confusion_matrix"))):
         csd.confusion_matrix(correctBoard)
 
+def CreateDataset():
+    print ("Creating Dataset")
+    testImgsDir = config.get("Directory", "testImagesDirFil")
+    #loop over test images and call func
+    startcount =0
+    for filename in os.listdir(testImgsDir):
+        if filename.endswith(".jpg") or filename.endswith(".png"):
+            print("Testing image: " + filename)
+            img = io.imread(testImgsDir + "/" + filename)
+            try:
+                csd = ChessStateDetection(img)
+                csd.classifySquares()
+                startcount = csd.saveImagesClassifiedSorted(startcount)
+            except:
+                print("Board not detected")
+            
+        else:
+            continue
 
 
 
@@ -123,7 +149,8 @@ def main():
         "TestSelBoard": TestSelBoard,
         "TestLines": TestLines,
         "TestAllBoards": TestAllBoards,
-        "TestBoardErrors": TestBoardErrors
+        "TestBoardErrors": TestBoardErrors,
+        "CreateDataset": CreateDataset
     }
     func = switcher.get(mode, Default)
     func()   
